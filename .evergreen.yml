@@ -9,58 +9,33 @@ functions:
     command: git.get_project
     type: setup
     params:
-      directory: spruce
+      directory: evergreen.js
 
   npm-install:
     command: subprocess.exec
     type: setup
     params:
-      working_dir: spruce
+      working_dir: evergreen.js
       binary: npm
       args: [install]
 
   npm-test:
     command: subprocess.exec
     params:
-      working_dir: spruce
+      working_dir: evergreen.js
       binary: npm
       args: [test, --, -u, --reporters=default, --reporters=jest-junit]
       env:
         CI: "true"
-
-  npm-build:
-    command: subprocess.exec
-    params:
-      working_dir: spruce
-      binary: npm
-      args: [run, build]
-
-  npm-dist:
-    command: subprocess.exec
-    params:
-      working_dir: spruce
-      binary: npm
-      args: [run, dist]
+        API_USER: ${api_user}
+        API_KEY: ${api_key}
+        API_SERVER: ${api_server}
 
   attach-results:
     command: attach.xunit_results
     params:
       files:
-        - "./spruce/junit.xml"
-
-  upload-dist:
-    command: s3.put
-    type: system
-    params:
-      optional: true
-      aws_key: ${aws_key}
-      aws_secret: ${aws_secret}
-      local_file: spruce/bin/dist.tar.gz
-      remote_file: spruce/${build_id}-${build_variant}/spruce-${task_name}-${revision}.tar.gz
-      bucket: mciuploads
-      content_type: application/x-gzip
-      permissions: public-read
-      display_name: dist.tar.gz
+        - "./evergreen.js/junit.xml"
 
 tasks:
   - name: test
@@ -69,13 +44,6 @@ tasks:
       - func: npm-install
       - func: npm-test
       - func: attach-results
-  - name: dist
-    commands:
-      - func: get-project
-      - func: npm-install
-      - func: npm-build
-      - func: npm-dist
-      - func: upload-dist
 
 
 buildvariants:
@@ -85,4 +53,3 @@ buildvariants:
       - ubuntu1604-test
     tasks:
       - name: test
-      - name: dist
