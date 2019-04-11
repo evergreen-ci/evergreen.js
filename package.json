@@ -1,6 +1,7 @@
 {
   "name": "evergreen.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "tslint -c tslint.json src/*.ts",
@@ -25,5 +26,22 @@
     "js-yaml": "^3.13.0",
     "request": "^2.88.0",
     "tslib": "^1.9.3"
-  }
+  },
+  "description": "JavaScript/TypeScript library for the Evergreen REST API",
+  "version": "1.0.0",
+  "main": "lib/evergreen.js",
+  "types": "src/evergreen.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evergreen-ci/evergreen.js.git"
+  },
+  "keywords": [
+    "evergreen"
+  ],
+  "author": "John Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evergreen-ci/evergreen.js/issues"
+  },
+  "homepage": "https://github.com/evergreen-ci/evergreen.js#readme"
 }
