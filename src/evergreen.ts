@@ -53,6 +53,26 @@ export namespace evergreen {
             }
             this.getResource(callback, apiV2Resource("status/recent_tasks"), params);
         }
+
+        public getAdminConfig(callback: request.RequestCallback) {
+            this.getResource(callback, apiV2Resource("admin/settings"));
+        }
+
+        public setAdminConfig(callback: request.RequestCallback, settings:any) {
+            this.postResource(callback, apiV2Resource("admin/settings"), settings);
+        }
+
+        public getBanner(callback: request.RequestCallback) {
+            this.getResource(callback, apiV2Resource("admin/banner"));
+        }
+
+        public setBanner(callback: request.RequestCallback, message:string, theme:string) {
+            let body = {
+                "banner": message,
+                "theme": theme
+            }
+            this.postResource(callback, apiV2Resource("admin/settings"), body);
+        }
     }
 
     export function apiV2Resource(resource: string): string {

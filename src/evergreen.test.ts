@@ -58,6 +58,8 @@ test("integration tests with real API, credentials", (done) => {
     const toTest: {(callback: request.RequestCallback): void;}[] = [
         client.getDistros,
         client.getRecentTasks,
+        client.getAdminConfig,
+        client.getBanner
     ];
     
     let count = 0;
