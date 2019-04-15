@@ -45,9 +45,9 @@ test("query strings are formed correctly", () => {
     expect(evergreen.queryString(params1)).toBe("?param1=val1&param2=true&param3=55");
 
     let params2 = {
-        "undefined": undefined,
-        "null": null,
-    }
+        undefined: undefined,
+        null: null,
+    } as any
     expect(evergreen.queryString(params2)).toBe("");
 
     expect(evergreen.queryString({})).toBe("");
@@ -76,7 +76,6 @@ test("integration tests with real API, credentials", (done) => {
     };
 
     toTest.forEach((fn) => {
-        console.log("testing " + fn.name);
         client[fn.name](callback);
     })
 })
