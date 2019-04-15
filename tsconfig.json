@@ -7,7 +7,6 @@
       "target": "es6",
       "lib": ["es6", "dom"],
       "sourceMap": true,
-      "allowJs": true,
       "moduleResolution": "node",
       "rootDir": "src",
       "forceConsistentCasingInFileNames": true,
@@ -24,6 +23,7 @@
       "build",
       "acceptance-tests",
       "webpack",
-      "jest"
+      "jest",
+      "lib"
     ]
   }

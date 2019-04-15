@@ -1,4 +1,4 @@
-import { models } from "./admin";
+import { models } from "./models";
 test("Models deserialize correctly from JSON", () => {
     let classJSON = {
         amboy: {

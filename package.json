@@ -1,7 +1,7 @@
 {
   "name": "evergreen.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -d",
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "tslint -c tslint.json src/*.ts",
@@ -30,7 +30,7 @@
     "tslib": "^1.9.3"
   },
   "description": "JavaScript/TypeScript library for the Evergreen REST API",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/evergreen.js",
   "types": "src/evergreen.ts",
   "repository": {
