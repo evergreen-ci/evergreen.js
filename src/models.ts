@@ -2,8 +2,8 @@ import { plainToClass } from 'class-transformer';
 
 // current as of 1370c53df007bf03b6d297a0a1e01b63843b08c7
 export namespace models {
-    export function ConvertToAdminSettings(raw:object): AdminSettings {
-        return  plainToClass(models.AdminSettings, raw);
+    export function ConvertToAdminSettings(raw:string): AdminSettings {
+        return plainToClass(AdminSettings, JSON.parse(raw) as object);
     }
 
     export class AdminSettings {
