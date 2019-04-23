@@ -7,19 +7,16 @@ import { evergreen } from './evergreen';
 const configFilePath = os.homedir() + "/.evergreen.yml";
 
 function getEvergreenClient(): evergreen.client {
-    let user: string;
-    let key: string;
-    let serverURL: string;
-    if (fs.existsSync(configFilePath)) {
+    let user = process.env.API_USER || "";
+    let key = process.env.API_KEY || "";
+    let serverURL = process.env.API_SERVER || "";
+    
+    if (user == "" && key == "" && serverURL == "" && fs.existsSync(configFilePath)) {
         const data = fs.readFileSync(configFilePath, "utf8");
         const localConfig = yaml.safeLoad(data);
         user = localConfig.user;
         key = localConfig.api_key;
         serverURL = localConfig.api_server_host;
-    } else {
-        user = process.env.API_USER || "";
-        key = process.env.API_KEY || "";
-        serverURL = process.env.API_SERVER || "";
     }
 
     return new evergreen.client(user, key, serverURL);
