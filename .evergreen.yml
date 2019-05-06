@@ -31,6 +31,13 @@ functions:
         API_KEY: ${api_key}
         API_SERVER: ${api_server}
 
+  npm-run-lint:
+    command: subprocess.exec
+    params:
+      working_dir: evergreen.js
+      binary: npm
+      args: [run, lint]
+
   attach-results:
     command: attach.xunit_results
     params:
@@ -44,6 +51,11 @@ tasks:
       - func: npm-install
       - func: npm-test
       - func: attach-results
+  - name: lint
+    commands:
+      - func: get-project
+      - func: npm-install
+      - func: npm-run-lint
 
 
 buildvariants:
@@ -53,3 +65,4 @@ buildvariants:
       - ubuntu1604-test
     tasks:
       - name: test
+      - name: lint

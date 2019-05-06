@@ -2,16 +2,16 @@ import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as os from "os";
 import * as request from "request";
-import { evergreen } from './evergreen';
+import { client, queryString } from "./evergreen";
 
 const configFilePath = os.homedir() + "/.evergreen.yml";
 
-function getEvergreenClient(): evergreen.client {
+function getEvergreenClient(): client {
     let user = process.env.API_USER || "";
     let key = process.env.API_KEY || "";
     let serverURL = process.env.API_SERVER || "";
-    
-    if (user == "" && key == "" && serverURL == "" && fs.existsSync(configFilePath)) {
+
+    if (user === "" && key === "" && serverURL === "" && fs.existsSync(configFilePath)) {
         const data = fs.readFileSync(configFilePath, "utf8");
         const localConfig = yaml.safeLoad(data);
         user = localConfig.user;
@@ -19,46 +19,46 @@ function getEvergreenClient(): evergreen.client {
         serverURL = localConfig.api_server_host;
     }
 
-    return new evergreen.client(user, key, serverURL);
+    return new client(user, key, serverURL);
 }
 
 test("Evergreen client is constructed correctly", () => {
     const user = "me";
     const key = "abc123";
     const serverURL = "www.example.com";
-    const client = new evergreen.client(user,key,serverURL)
+    const evergreen = new client(user, key, serverURL);
 
-    expect(client.username).toBe(user);
-    expect(client.key).toBe(key);
-    expect(client.serverURL).toBe(serverURL);
+    expect(evergreen.username).toBe(user);
+    expect(evergreen.key).toBe(key);
+    expect(evergreen.serverURL).toBe(serverURL);
 });
 
 test("query strings are formed correctly", () => {
-    let params1 = {
-        "param1": "val1",
-        "param2": true,
-        "param3": 55,
-    }
-    expect(evergreen.queryString(params1)).toBe("?param1=val1&param2=true&param3=55");
+    const params1 = {
+        param1: "val1",
+        param2: true,
+        param3: 55,
+    };
+    expect(queryString(params1)).toBe("?param1=val1&param2=true&param3=55");
 
-    let params2 = {
+    const params2 = {
         undefined: undefined,
         null: null,
-    } as any
-    expect(evergreen.queryString(params2)).toBe("");
+    } as any;
+    expect(queryString(params2)).toBe("");
 
-    expect(evergreen.queryString({})).toBe("");
-})
+    expect(queryString({})).toBe("");
+});
 
 test("integration tests with real API, credentials", (done) => {
-    const client = getEvergreenClient();
-    const toTest: {(callback: request.RequestCallback): void;}[] = [
-        client.getDistros,
-        client.getRecentTasks,
-        client.getAdminConfig,
-        client.getBanner
+    const evergreen = getEvergreenClient();
+    const toTest: Array<(callback: request.RequestCallback) => void> = [
+        evergreen.getDistros,
+        evergreen.getRecentTasks,
+        evergreen.getAdminConfig,
+        evergreen.getBanner,
     ];
-    
+
     let count = 0;
     const callback = (error: any, response: request.Response, body: any): void => {
         expect(error).toBe(null);
@@ -73,6 +73,6 @@ test("integration tests with real API, credentials", (done) => {
     };
 
     toTest.forEach((fn) => {
-        client[fn.name](callback);
-    })
-})
+        evergreen[fn.name](callback);
+    });
+});
