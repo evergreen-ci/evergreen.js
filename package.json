@@ -20,7 +20,9 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "verbose": true,
-    "roots": ["./src"]
+    "roots": [
+      "./src"
+    ]
   },
   "dependencies": {
     "@types/js-yaml": "^3.12.0",
@@ -31,7 +33,7 @@
     "tslib": "^1.9.3"
   },
   "description": "JavaScript/TypeScript library for the Evergreen REST API",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "lib/evergreen.js",
   "types": "src/evergreen.ts",
   "repository": {
