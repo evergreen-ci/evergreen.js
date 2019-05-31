@@ -2,11 +2,10 @@
   "name": "evergreen.js",
   "scripts": {
     "build": "tsc -d",
-    "prepare": "tsc -d",
     "test": "jest",
     "coverage": "jest --coverage",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "lint-fix": "tslint --fix -c tslint.json 'src/**/*.ts'",
+    "lint": "tslint -c tslint.json src/*.ts",
+    "lint-fix": "tslint --fix -c tslint.json src/*.ts",
     "clear-jest-cache": "jest --clearCache"
   },
   "devDependencies": {
@@ -34,7 +33,7 @@
     "tslib": "^1.9.3"
   },
   "description": "JavaScript/TypeScript library for the Evergreen REST API",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "lib/evergreen.js",
   "types": "src/evergreen.ts",
   "repository": {
