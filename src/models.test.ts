@@ -9,7 +9,6 @@ test("Models deserialize correctly from JSON", () => {
     }`;
 
     const classObj = ConvertToAdminSettings(classJSON);
-    console.log(typeof(classObj));
     expect(classObj.amboy.name).toEqual("foo");
     expect(classObj.amboy.pool_size_local).toEqual(3);
     expect(classObj.api_url).toEqual("api");

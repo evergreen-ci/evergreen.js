@@ -1,4 +1,3 @@
-
 import * as request from "request";
 
 export class client {
@@ -11,35 +10,7 @@ export class client {
         this.key = key;
         this.serverURL = serverURL;
     }
-
-    /**
-     * General function to send a HTTP GET to Evergreen
-     *
-     * @param callback - function to process the response
-     * @param resource - resource to GET, can be a path
-     * @param params - query params to append to the request URL, in the format {"param": "value"}
-     * @returns nothing
-     */
-    public getResource(callback: request.RequestCallback, resource: string, params?: object) {
-        const url = this.serverURL + "/" + resource + queryString(params);
-        request.get(this.formRequest(url), callback);
-    }
-
-    /**
-     * General function to send a HTTP POST to Evergreen
-     *
-     * @param callback - function to process the response
-     * @param resource - resource to POST to, can be a path
-     * @param body - body of the request, usually as an object
-     * @returns nothing
-     */
-    public postResource(callback: request.RequestCallback, resource: string, body: any) {
-        const url = this.serverURL + "/" + resource;
-        request.post(this.formRequest(url, body), callback);
-    }
-
-    // routes are below
-
+    // routes
     /**
      * Gets all distros
      *
@@ -114,7 +85,7 @@ export class client {
         };
         this.postResource(callback, apiV2Resource("admin/settings"), body);
     }
-
+    // end routes
     private formRequest(url: string, body?: any): requestOpts {
         const opts: requestOpts = {
             headers: {
@@ -130,7 +101,33 @@ export class client {
 
         return opts;
     }
-    // end routes
+
+    /**
+     * General function to send a HTTP GET to Evergreen
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to GET, can be a path
+     * @param params - query params to append to the request URL, in the format {"param": "value"}
+     * @returns nothing
+     */
+    private getResource(callback: request.RequestCallback, resource: string, params?: object) {
+        const url = this.serverURL + "/" + resource + queryString(params);
+        request.get(this.formRequest(url), callback);
+    }
+
+    /**
+     * General function to send a HTTP POST to Evergreen
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to POST to, can be a path
+     * @param body - body of the request, usually as an object
+     * @returns nothing
+     */
+    private postResource(callback: request.RequestCallback, resource: string, body: any) {
+        const url = this.serverURL + "/" + resource;
+        request.post(this.formRequest(url, body), callback);
+    }
+
 }
 
 export function apiV2Resource(resource: string): string {
