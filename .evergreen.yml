@@ -38,6 +38,13 @@ functions:
       binary: npm
       args: [run, lint]
 
+  npm-build:
+  command: subprocess.exec
+  params:
+    working_dir: evergreen.js
+    binary: npm
+    args: [run, build]
+
   attach-results:
     command: attach.xunit_results
     params:
@@ -56,6 +63,11 @@ tasks:
       - func: get-project
       - func: npm-install
       - func: npm-run-lint
+  - name: build
+    commands:
+      - func: get-project
+      - func: npm-install
+      - func: npm-build
 
 
 buildvariants:
@@ -64,5 +76,6 @@ buildvariants:
     run_on:
       - ubuntu1604-test
     tasks:
-      - name: test
+      - name: build
       - name: lint
+      - name: test
