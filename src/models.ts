@@ -252,7 +252,7 @@ export class LogMessage {
 
 export class UIPatch {
     public Patch?: Patch;
-    public StatusDiffs?: Object;
+    public StatusDiffs?: object;
     public base_time_taken?: number;
     public BaseVersionId?: string;
     public BaseBuildId?: string;
@@ -273,7 +273,7 @@ export class Version {
     public create_time?: Time;
     public start_time?: Time;
     public finish_time?: Time;
-    public gitspec?: string
+    public gitspec?: string;
     public author?: string;
     public author_email?: string;
     public message?: string;
