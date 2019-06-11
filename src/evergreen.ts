@@ -69,6 +69,21 @@ export class client {
     }
 
     /**
+     * Gets mci-token (cookie) when given login credentials
+     *
+     * @param username - Evergreen user's username
+     * @param password - Evergreen user's password
+     * @returns nothing
+     */
+    public getToken(callback: request.RequestCallback, username?: string, password?: string) {
+        const params = {
+            username: username,
+            password: password,
+        };
+        this.postResource(callback, "login", params);
+    }
+
+    /**
      * Gets the admin settings
      *
      * @param callback - function to process the response

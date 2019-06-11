@@ -13,7 +13,7 @@
     "jest": "^24.5.0",
     "jest-junit": "^6.3.0",
     "ts-jest": "^24.0.0",
-    "tslint": "^5.14.0",
+    "tslint": "^5.17.0",
     "typescript": "^3.3.4000"
   },
   "jest": {
@@ -33,7 +33,7 @@
     "tslib": "^1.9.3"
   },
   "description": "JavaScript/TypeScript library for the Evergreen REST API",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "lib/evergreen.js",
   "types": "src/evergreen.ts",
   "repository": {
