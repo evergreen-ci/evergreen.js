@@ -21,7 +21,7 @@ export class client {
      * @returns nothing
      */
     public getResource(callback: request.RequestCallback, resource: string, params?: object) {
-        const url = resource + queryString(params);
+        const url = this.serverURL + "/" + resource + queryString(params);
         request.get(this.formRequest(url), callback);
     }
 
