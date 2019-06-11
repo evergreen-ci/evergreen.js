@@ -21,7 +21,7 @@ export class client {
      * @returns nothing
      */
     public getResource(callback: request.RequestCallback, resource: string, params?: object) {
-        const url = this.serverURL + "/" + resource + queryString(params);
+        const url = resource + queryString(params);
         request.get(this.formRequest(url), callback);
     }
 
@@ -66,6 +66,21 @@ export class client {
             status: status,
         };
         this.getResource(callback, apiV2Resource("status/recent_tasks"), params);
+    }
+
+    /**
+     * Gets mci-token (cookie) when given login credentials
+     *
+     * @param username - Evergreen user's username
+     * @param password - Evergreen user's password
+     * @returns nothing
+     */
+    public getToken(callback: request.RequestCallback, username?: string, password?: string) {
+        const params = {
+            username: username,
+            password: password,
+        };
+        this.postResource(callback, "login", params);
     }
 
     /**

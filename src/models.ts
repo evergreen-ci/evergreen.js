@@ -5,6 +5,10 @@ export function ConvertToAdminSettings(raw: string): AdminSettings {
     return plainToClass(AdminSettings, JSON.parse(raw) as object);
 }
 
+export function ConvertToPatches(raw: string): Patches {
+    return plainToClass(Patches, JSON.parse(raw) as object);
+}
+
 /* tslint:disable:variable-name */
 export class AdminSettings {
     public alerts?: AlertsConfig;
@@ -180,6 +184,198 @@ export class OpenStackConfig {
     public project_name?: string;
     public project_id?: string;
     public region?: string;
+}
+
+export class Patches {
+    public VersionsMap?: Record<string, UIVersion>;
+    public UIPatches?: UIPatch[];
+    public PageNum?: number;
+}
+
+export class UIVersion {
+    public Version?: Version;
+    public Builds?: UIBuild[];
+    public PatchInfo?: UIPatch;
+    public active_tasks?: number;
+    public repo_owner?: string;
+    public repo_name?: string;
+    public upstream?: UIUpstreamData;
+}
+
+export class UIBuild {
+    public Build?: Build;
+    public Version?: Version;
+    public PatchInfo?: UIPatch;
+    public Tasks?: UITask[];
+    public Elapsed?: number;
+    public CurrentTime?: number;
+    public repo_owner?: string;
+    public repo_name?: string;
+    public taskStatusCount?: TaskStatusCount;
+    public UpstreamData?: UIUpstreamData;
+}
+
+export class TaskStatusCount {
+    public succeeded?: number;
+    public failed?: number;
+    public started?: number;
+    public undispatched?: number;
+    public inactive?: number;
+    public dispatched?: number;
+    public timed_out?: number;
+}
+
+export class UITask {
+    public Task?: Task;
+    public Gitspec?: string;
+    public BuildDisplay?: string;
+    public TaskLog?: LogMessage[];
+    public NextTasks?: Task[];
+    public PreviousTasks?: Task[];
+    public Elapsed?: number;
+    public StartTime?: number;
+    public failed_test_names?: string[];
+    public expected_duration?: number;
+}
+
+export class Task {
+
+}
+
+export class LogMessage {
+    public t?: string;
+    public s?: string;
+    public m?: string;
+    public ts?: Time;
+    public v?: number;
+}
+
+export class UIPatch {
+    public Patch?: Patch;
+    public StatusDiffs?: Object;
+    public base_time_taken?: number;
+    public BaseVersionId?: string;
+    public BaseBuildId?: string;
+    public BaseTaskId?: string;
+}
+
+export class UIUpstreamData {
+    public owner?: string;
+    public repo: string;
+    public revision?: string;
+    public project_name?: string;
+    public trigger_id?: string;
+    public trigger_type?: string;
+}
+
+export class Version {
+    public _id?: string;
+    public create_time?: Time;
+    public start_time?: Time;
+    public finish_time?: Time;
+    public gitspec?: string
+    public author?: string;
+    public author_email?: string;
+    public message?: string;
+    public status?: string;
+    public order?: number;
+    public config?: string;
+    public ignored?: boolean;
+    public owner_name?: string;
+    public repo_name?: string;
+    public branch_name?: string;
+    public repo_kind?: string;
+    public build_variants_status?: VersionBuildStatus[];
+    public builds?: string[];
+    public identifier?: string;
+    public remote?: boolean;
+    public remote_path?: string;
+    public requester?: string;
+    public errors?: string[];
+    public warnings?: string[];
+    public author_id?: string;
+    public satisfied_triggers?: string[];
+    public trigger_id?: string;
+    public trigger_type?: string;
+    public trigger_event?: string;
+}
+
+export class Build {
+
+}
+
+export class VersionBuildStatus {
+
+}
+
+export class Patch {
+    public _id?: string;
+    public desc?: string;
+    public branch?: string;
+    public githash?: string;
+    public patch_number?: number;
+    public author?: string;
+    public version?: string;
+    public status?: string;
+    public create_time?: Time;
+    public start_time?: Time;
+    public finish_time?: Time;
+    public build_variants?: string[];
+    public tasks?: string[];
+    public variant_tasks?: VariantTasks[];
+    public patches?: ModulePatch[];
+    public activated?: boolean;
+    public patched_config?: string;
+    public alias?: string;
+    public github_patch_data?: GithubPatch;
+}
+
+export class Time {
+    public wall?: number;
+    public ext?: number;
+    public loc?: Location;
+}
+
+export class GithubPatch {
+    public pr_number?: number;
+    public base_owner?: string;
+    public base_repo?: string;
+    public base_branch?: string;
+    public head_owner?: string;
+    public head_repo?: string;
+    public head_hash?: string;
+    public author?: string;
+    public author_uid?: number;
+    public merge_commit_sha?: string;
+}
+
+export class ModulePatch {
+    public name?: string;
+    public githash?: string;
+    public patch_set?: PatchSet;
+}
+
+export class PatchSet {
+    public patch?: string;
+    public patch_file_id?: string;
+    public summary?: Summary[];
+}
+
+export class Summary {
+    public filename?: string;
+    public additions?: number;
+    public deletions?: number;
+}
+
+export class VariantTasks {
+    public Variant?: string;
+    public Tasks?: string[];
+    public DisplayTasks?: DisplayTask[];
+}
+
+export class DisplayTask {
+    public Name?: string;
+    public ExecTasks?: string[];
 }
 
 export class VSphereConfig {
