@@ -39,11 +39,11 @@ functions:
       args: [run, lint]
 
   npm-build:
-  command: subprocess.exec
-  params:
-    working_dir: evergreen.js
-    binary: npm
-    args: [run, build]
+    command: subprocess.exec
+    params:
+      working_dir: evergreen.js
+      binary: npm
+      args: [run, build]
 
   attach-results:
     command: attach.xunit_results
