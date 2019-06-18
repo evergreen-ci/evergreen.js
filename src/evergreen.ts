@@ -99,7 +99,6 @@ export class client {
 
     /**
      * Gets patches for a particular user
-     * 
      * @param callback - function to process the response
      * @param username - Evergreen user's username
      * @returns nothing
