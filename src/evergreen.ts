@@ -1,15 +1,16 @@
-
 import * as request from "request";
 
 export class client {
     public username: string;
     public key: string;
     public serverURL: string;
+    public webURL: string;
 
-    constructor(username: string, key: string, serverURL: string) {
+    constructor(username: string, key: string, serverURL: string, webURL: string = "") {
         this.username = username;
         this.key = key;
         this.serverURL = serverURL;
+        this.webURL = webURL;
     }
 
     /**
@@ -18,11 +19,17 @@ export class client {
      * @param callback - function to process the response
      * @param resource - resource to GET, can be a path
      * @param params - query params to append to the request URL, in the format {"param": "value"}
+     * @param useWeb - tells us whether to use the web or server URL defined in evergreen.yml
      * @returns nothing
      */
-    public getResource(callback: request.RequestCallback, resource: string, params?: object) {
-        const url = this.serverURL + "/" + resource + queryString(params);
-        request.get(this.formRequest(url), callback);
+    public getResource(callback: request.RequestCallback, resource: string, params?: object, useWeb: boolean = false) {
+        if (useWeb) {
+            const url = this.webURL + "/" + resource + queryString(params);
+            request.get(this.formRequest(url), callback);
+        } else {
+            const url = this.serverURL + "/" + resource + queryString(params);
+            request.get(this.formRequest(url), callback);
+        }
     }
 
     /**
@@ -31,11 +38,17 @@ export class client {
      * @param callback - function to process the response
      * @param resource - resource to POST to, can be a path
      * @param body - body of the request, usually as an object
+     * @param useWeb - tells us whether to use the web or server URL defined in evergreen.yml
      * @returns nothing
      */
-    public postResource(callback: request.RequestCallback, resource: string, body: any) {
-        const url = this.serverURL + "/" + resource;
-        request.post(this.formRequest(url, body), callback);
+    public postResource(callback: request.RequestCallback, resource: string, body: any, useWeb: boolean = false) {
+        if (useWeb) {
+          const url = this.webURL + "/" + resource;
+          request.post(this.formRequest(url, body), callback);
+        } else {
+          const url = this.serverURL + "/" + resource;
+          request.post(this.formRequest(url, body), callback);
+        }
     }
 
     // routes are below
@@ -69,8 +82,9 @@ export class client {
     }
 
     /**
-     * Gets mci-token (cookie) when given login credentials
+     * Updates header cookies when given login credentials
      *
+     * @param callback - function to process the response
      * @param username - Evergreen user's username
      * @param password - Evergreen user's password
      * @returns nothing
@@ -80,7 +94,19 @@ export class client {
             username: username,
             password: password,
         };
-        this.postResource(callback, "login", params);
+        this.postResource(callback, "login", params, true);
+    }
+
+    /**
+     * Gets patches for a particular user
+     * 
+     * @param callback - function to process the response
+     * @param username - Evergreen user's username
+     * @returns nothing
+     */
+    public getPatches(callback: request.RequestCallback, username?: string) {
+        const url =  "json/patches/user/" + username;
+        this.getResource(callback, url, {}, true);
     }
 
     /**
