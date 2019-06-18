@@ -28,11 +28,12 @@ test("Evergreen client is constructed correctly", () => {
     const user = "me";
     const key = "abc123";
     const serverURL = "www.example.com";
-    const evergreen = new client(user, key, serverURL);
+    const webURL = "www.example.com";
+    const evergreen = new client(user, key, serverURL, webURL);
 
     expect(evergreen.username).toBe(user);
     expect(evergreen.key).toBe(key);
-    expect(evergreen.serverURL).toBe(serverURL);
+    expect(evergreen.apiURL).toBe(serverURL);
 });
 
 test("query strings are formed correctly", () => {

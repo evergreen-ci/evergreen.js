@@ -3,14 +3,14 @@ import * as request from "request";
 export class client {
     public username: string;
     public key: string;
-    public serverURL: string;
-    public webURL: string;
+    public apiURL: string;
+    public uiURL: string;
 
-    constructor(username: string, key: string, serverURL: string, webURL: string = "") {
+    constructor(username: string, key: string, serverURL: string, webURL: string) {
         this.username = username;
         this.key = key;
-        this.serverURL = serverURL;
-        this.webURL = webURL;
+        this.apiURL = serverURL;
+        this.uiURL = webURL;
     }
 
     /**
@@ -24,10 +24,10 @@ export class client {
      */
     public getResource(callback: request.RequestCallback, resource: string, params?: object, useWeb: boolean = false) {
         if (useWeb) {
-            const url = this.webURL + "/" + resource + queryString(params);
+            const url = this.uiURL + "/" + resource + queryString(params);
             request.get(this.formRequest(url), callback);
         } else {
-            const url = this.serverURL + "/" + resource + queryString(params);
+            const url = this.apiURL + "/" + resource + queryString(params);
             request.get(this.formRequest(url), callback);
         }
     }
@@ -43,10 +43,10 @@ export class client {
      */
     public postResource(callback: request.RequestCallback, resource: string, body: any, useWeb: boolean = false) {
         if (useWeb) {
-          const url = this.webURL + "/" + resource;
+          const url = this.uiURL + "/" + resource;
           request.post(this.formRequest(url, body), callback);
         } else {
-          const url = this.serverURL + "/" + resource;
+          const url = this.apiURL + "/" + resource;
           request.post(this.formRequest(url, body), callback);
         }
     }
@@ -104,8 +104,8 @@ export class client {
      * @returns nothing
      */
     public getPatches(callback: request.RequestCallback, username?: string) {
-        const url =  "json/patches/user/" + username;
-        this.getResource(callback, url, {}, true);
+        const resource =  "json/patches/user/" + username;
+        this.getResource(callback, resource, {}, true);
     }
 
     /**
