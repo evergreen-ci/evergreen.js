@@ -30,6 +30,7 @@ functions:
         API_USER: ${api_user}
         API_KEY: ${api_key}
         API_SERVER: ${api_server}
+        UI_SERVER: ${ui_server}
 
   npm-run-lint:
     command: subprocess.exec
