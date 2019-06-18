@@ -14,23 +14,30 @@ export class client {
     }
 
     /**
-     * General function to send a HTTP GET to Evergreen
+     * General function to send a HTTP GET to the Evergreen API
      *
      * @param callback - function to process the response
      * @param resource - resource to GET, can be a path
      * @param params - query params to append to the request URL, in the format {"param": "value"}
-     * @param useWeb - tells us whether to use the web or server URL defined in evergreen.yml
      * @returns nothing
      */
-    public getResource(callback: request.RequestCallback, resource: string, params?: object, useWeb: boolean = false) {
-        if (useWeb) {
-            const url = this.uiURL + "/" + resource + queryString(params);
-            request.get(this.formRequest(url), callback);
-        } else {
-            const url = this.apiURL + "/" + resource + queryString(params);
-            request.get(this.formRequest(url), callback);
-        }
+    public getAPIResource(callback: request.RequestCallback, resource: string, params?: object) {
+        const url = this.apiURL + "/" + resource + queryString(params);
+        request.get(this.formRequest(url), callback);
     }
+
+    /**
+     * General function to send a HTTP GET to the Evergreen UI
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to GET, can be a path
+     * @param params - query params to append to the request URL, in the format {"param": "value"}
+     * @returns nothing
+     */
+    public getUIResource(callback: request.RequestCallback, resource: string, params?: object) {
+        const url = this.uiURL + "/" + resource + queryString(params);
+        request.get(this.formRequest(url), callback);
+  }
 
     /**
      * General function to send a HTTP POST to Evergreen
@@ -38,18 +45,25 @@ export class client {
      * @param callback - function to process the response
      * @param resource - resource to POST to, can be a path
      * @param body - body of the request, usually as an object
-     * @param useWeb - tells us whether to use the web or server URL defined in evergreen.yml
      * @returns nothing
      */
-    public postResource(callback: request.RequestCallback, resource: string, body: any, useWeb: boolean = false) {
-        if (useWeb) {
-          const url = this.uiURL + "/" + resource;
-          request.post(this.formRequest(url, body), callback);
-        } else {
-          const url = this.apiURL + "/" + resource;
-          request.post(this.formRequest(url, body), callback);
-        }
+    public postAPIResource(callback: request.RequestCallback, resource: string, body: any) {
+        const url = this.apiURL + "/" + resource;
+        request.post(this.formRequest(url, body), callback);
     }
+
+    /**
+     * General function to send a HTTP POST to the Evergreen UI
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to POST to, can be a path
+     * @param body - body of the request, usually as an object
+     * @returns nothing
+     */
+    public postUIResource(callback: request.RequestCallback, resource: string, body: any) {
+        const url = this.uiURL + "/" + resource;
+        request.post(this.formRequest(url, body), callback);
+  }
 
     // routes are below
 
@@ -60,7 +74,7 @@ export class client {
      * @returns nothing
      */
     public getDistros(callback: request.RequestCallback) {
-        this.getResource(callback, apiV2Resource("distros"));
+        this.getAPIResource(callback, apiV2Resource("distros"));
     }
 
     /**
@@ -78,7 +92,7 @@ export class client {
             minutes: lookbackMins,
             status: status,
         };
-        this.getResource(callback, apiV2Resource("status/recent_tasks"), params);
+        this.getAPIResource(callback, apiV2Resource("status/recent_tasks"), params);
     }
 
     /**
@@ -94,7 +108,7 @@ export class client {
             username: username,
             password: password,
         };
-        this.postResource(callback, "login", params, true);
+        this.postUIResource(callback, "login", params);
     }
 
     /**
@@ -105,7 +119,7 @@ export class client {
      */
     public getPatches(callback: request.RequestCallback, username?: string) {
         const resource =  "json/patches/user/" + username;
-        this.getResource(callback, resource, {}, true);
+        this.getUIResource(callback, resource, {});
     }
 
     /**
@@ -115,7 +129,7 @@ export class client {
      * @returns nothing
      */
     public getAdminConfig(callback: request.RequestCallback) {
-        this.getResource(callback, apiV2Resource("admin/settings"));
+        this.getAPIResource(callback, apiV2Resource("admin/settings"));
     }
 
     /**
@@ -126,7 +140,7 @@ export class client {
      * @returns nothing
      */
     public setAdminConfig(callback: request.RequestCallback, settings: any) {
-        this.postResource(callback, apiV2Resource("admin/settings"), settings);
+        this.postAPIResource(callback, apiV2Resource("admin/settings"), settings);
     }
 
     /**
@@ -136,7 +150,7 @@ export class client {
      * @returns nothing
      */
     public getBanner(callback: request.RequestCallback) {
-        this.getResource(callback, apiV2Resource("admin/banner"));
+        this.getAPIResource(callback, apiV2Resource("admin/banner"));
     }
 
     /**
@@ -152,7 +166,7 @@ export class client {
             banner: message,
             theme: theme,
         };
-        this.postResource(callback, apiV2Resource("admin/settings"), body);
+        this.postAPIResource(callback, apiV2Resource("admin/settings"), body);
     }
 
     private formRequest(url: string, body?: any): requestOpts {
