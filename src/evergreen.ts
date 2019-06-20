@@ -119,7 +119,7 @@ export class client {
      */
     public getPatches(callback: request.RequestCallback, username?: string) {
         const resource =  "json/patches/user/" + username;
-        this.getUIResource(callback, resource, {});
+        this.getUIResource(callback, resource);
     }
 
     /**
