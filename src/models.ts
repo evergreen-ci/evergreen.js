@@ -309,25 +309,25 @@ export class VersionBuildStatus {
 }
 
 export class Patch {
-    public _id?: string;
-    public desc?: string;
-    public branch?: string;
-    public githash?: string;
-    public patch_number?: number;
-    public author?: string;
-    public version?: string;
-    public status?: string;
-    public create_time?: Time;
-    public start_time?: Time;
-    public finish_time?: Time;
-    public build_variants?: string[];
-    public tasks?: string[];
-    public variant_tasks?: VariantTasks[];
-    public patches?: ModulePatch[];
-    public activated?: boolean;
-    public patched_config?: string;
-    public alias?: string;
-    public github_patch_data?: GithubPatch;
+    public Id?: string;
+    public Description?: string;
+    public Project?: string;
+    public Githash?: string;
+    public PatchNumber?: number;
+    public Author?: string;
+    public Version?: string;
+    public Status?: string;
+    public CreateTime?: Time;
+    public StartTime?: Time;
+    public FinishTime?: Time;
+    public BuildVariants?: string[];
+    public Tasks?: string[];
+    public VariantTasks?: VariantTasks[];
+    public Patches?: ModulePatch[];
+    public Activated?: boolean;
+    public PatchedConfig?: string;
+    public Alias?: string;
+    public GithubPatchData?: GithubPatch;
 }
 
 export class Time {
