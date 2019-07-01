@@ -327,7 +327,13 @@ class Build {
 }
 
 export class BuildTaskCache {
-  
+  id: string;
+	display_name: string;
+	status: string;
+	task_end_details: string;
+	start_time: Date;
+	time_taken: number;
+	activated: boolean;
 }
 
 export class VersionBuildStatus {
