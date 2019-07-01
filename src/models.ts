@@ -300,8 +300,34 @@ export class Version {
     public trigger_event?: string;
 }
 
-export class Build {
+class Build {
+	_id: string;
+	create_time: Date;
+	start_time: Date;
+	finish_time: Date;
+	version: string;
+	branch: string;
+	gitspec: string;
+	build_variant: string;
+	build_number: string;
+	status: string;
+	activated: boolean;
+	activated_by: string;
+	activated_time: Date;
+	order: number;
+	tasks: BuildTaskCache[];
+	time_taken: number;
+	display_name: string;
+	predicted_makespan: number;
+	actual_makespan: number;
+	r: string;
+	trigger_id: string;
+	trigger_type: string;
+	trigger_event: string;
+}
 
+export class BuildTaskCache {
+  
 }
 
 export class VersionBuildStatus {

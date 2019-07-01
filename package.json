@@ -33,7 +33,7 @@
     "tslib": "^1.10.0"
   },
   "description": "JavaScript/TypeScript library for the Evergreen REST API",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "lib/evergreen.js",
   "types": "src/evergreen.ts",
   "repository": {
