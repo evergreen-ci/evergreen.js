@@ -269,7 +269,7 @@ export class UIUpstreamData {
 }
 
 export class Version {
-    public _id?: string;
+    public id?: string;
     public create_time?: Time;
     public start_time?: Time;
     public finish_time?: Time;
