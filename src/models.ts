@@ -301,39 +301,39 @@ export class Version {
 }
 
 class Build {
-	_id: string;
-	create_time: Date;
-	start_time: Date;
-	finish_time: Date;
-	version: string;
-	branch: string;
-	gitspec: string;
-	build_variant: string;
-	build_number: string;
-	status: string;
-	activated: boolean;
-	activated_by: string;
-	activated_time: Date;
-	order: number;
-	tasks: BuildTaskCache[];
-	time_taken: number;
-	display_name: string;
-	predicted_makespan: number;
-	actual_makespan: number;
-	r: string;
-	trigger_id: string;
-	trigger_type: string;
-	trigger_event: string;
+	public _id: string;
+	public create_time: Date;
+	public start_time: Date;
+	public finish_time: Date;
+	public version: string;
+	public branch: string;
+	public gitspec: string;
+	public build_variant: string;
+	public build_number: string;
+	public status: string;
+	public activated: boolean;
+	public activated_by: string;
+	public activated_time: Date;
+	public order: number;
+	public tasks: BuildTaskCache[];
+	public time_taken: number;
+	public display_name: string;
+	public predicted_makespan: number;
+	public actual_makespan: number;
+	public r: string;
+	public trigger_id: string;
+	public trigger_type: string;
+	public trigger_event: string;
 }
 
 export class BuildTaskCache {
-  id: string;
-	display_name: string;
-	status: string;
-	task_end_details: string;
-	start_time: Date;
-	time_taken: number;
-	activated: boolean;
+  public id: string;
+	public display_name: string;
+	public status: string;
+	public task_end_details: string;
+	public start_time: Date;
+	public time_taken: number;
+	public activated: boolean;
 }
 
 export class VersionBuildStatus {

@@ -117,9 +117,12 @@ export class client {
      * @param username - Evergreen user's username
      * @returns nothing
      */
-    public getPatches(callback: request.RequestCallback, username?: string) {
+    public getPatches(callback: request.RequestCallback, username?: string, page?: number) {
         const resource =  "json/patches/user/" + username;
-        this.getUIResource(callback, resource);
+        const params = {
+          page: page,
+        };
+        this.getUIResource(callback, resource, params);
     }
 
     /**
