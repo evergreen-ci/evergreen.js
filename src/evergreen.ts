@@ -132,8 +132,12 @@ export class client {
      * @param type - type of log to return
      * @returns nothing
      */
-    public getLogs(callback: request.RequestCallback, id?: string, type?: string) {
-      const resource =  "task_log_raw/" + id + "/0?" + "type=" + type + "&text=true"; 
+    public getLogs(callback: request.RequestCallback, id: string, type: string, executionNumber: number) {
+      const params = {
+        type: type, 
+        text: true
+      };
+      const resource =  "task_log_raw/" + id + "/" + executionNumber + queryString(params); 
       this.getUIResource(callback, resource);
   }
 
