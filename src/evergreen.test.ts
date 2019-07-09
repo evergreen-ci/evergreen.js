@@ -109,3 +109,19 @@ test("patches test with real username", (done) => {
 
     evergreen.getPatches(callback, username);
 });
+
+test("log test with real task id", (done) => {
+  const evergreen = getEvergreenClient();
+  const task_id = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
+  const log_type = "ALL";
+
+  const callback = (error: any, response: request.Response, body: any): void => {
+      expect(error).toBe(null);
+      expect(response.statusCode).toBe(200);
+      expect(body).not.toBe(null);
+      expect(body).not.toBe(undefined);
+      done();
+  };
+
+  evergreen.getLogs(callback, task_id, log_type);
+});
