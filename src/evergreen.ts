@@ -189,30 +189,22 @@ export class client {
     }
 
     private formRequest(url: string, requireHeaders: boolean, body?: any): requestOpts {
+      let headers = {};
       if (requireHeaders) {
-        const opts: requestOpts = {
-          headers: {
-              "Api-User": this.username,
-              "Api-Key": this.key,
-          },
-          url: url,
+        headers = {
+          "Api-User": this.username,
+          "Api-Key": this.key,
         };
-        if (body) {
-            opts.body = body;
-            opts.json = true;
-        }
-        return opts;
-      } else {
-        const opts: requestOpts = {
-            headers: {},
-            url: url,
-        };
-        if (body) {
-            opts.body = body;
-            opts.json = true;
-        }
-        return opts;
       }
+      const opts: requestOpts = {
+        headers: headers,
+        url: url,
+      };
+      if (body) {
+          opts.body = body;
+          opts.json = true;
+      }
+      return opts;
   }
     // end routes
 }
