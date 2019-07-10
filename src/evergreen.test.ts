@@ -21,7 +21,7 @@ function getEvergreenClient(): client {
         webURL = localConfig.ui_server_host;
     }
 
-    return new client(user, key, serverURL, webURL);
+    return new client(serverURL, webURL, user, key);
 }
 
 test("Evergreen client is constructed correctly", () => {
@@ -29,7 +29,7 @@ test("Evergreen client is constructed correctly", () => {
     const key = "abc123";
     const serverURL = "www.example.com";
     const webURL = "www.example.com";
-    const evergreen = new client(user, key, serverURL, webURL);
+    const evergreen = new client(serverURL, webURL, user, key);
 
     expect(evergreen.username).toBe(user);
     expect(evergreen.key).toBe(key);
