@@ -126,6 +126,22 @@ export class client {
     }
 
     /**
+     * Gets logs of a particular type for a particular task/
+     * @param callback - function to process the response
+     * @param id - identifier for the task whose logs we want
+     * @param type - type of log to return
+     * @returns nothing
+     */
+    public getLogs(callback: request.RequestCallback, id: string, type: string, executionNumber: number) {
+      const params = {
+        type: type,
+        text: true,
+      };
+      const resource =  "task_log_raw/" + id + "/" + executionNumber + queryString(params);
+      this.getUIResource(callback, resource);
+  }
+
+    /**
      * Gets the admin settings
      *
      * @param callback - function to process the response
