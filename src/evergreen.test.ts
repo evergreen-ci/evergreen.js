@@ -112,9 +112,9 @@ test("patches test with real username", (done) => {
 
 test("log test with real task id", (done) => {
   const evergreen = getEvergreenClient();
-  const task_id = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
-  const log_type = "ALL";
-  const execution_num = 0;
+  const taskId = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
+  const logType = "ALL";
+  const executionNum = 0;
 
   const callback = (error: any, response: request.Response, body: any): void => {
       expect(error).toBe(null);
@@ -124,5 +124,5 @@ test("log test with real task id", (done) => {
       done();
   };
 
-  evergreen.getLogs(callback, task_id, log_type, execution_num);
+  evergreen.getLogs(callback, taskId, logType, executionNum);
 });

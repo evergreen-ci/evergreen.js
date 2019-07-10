@@ -134,10 +134,10 @@ export class client {
      */
     public getLogs(callback: request.RequestCallback, id: string, type: string, executionNumber: number) {
       const params = {
-        type: type, 
-        text: true
+        type: type,
+        text: true,
       };
-      const resource =  "task_log_raw/" + id + "/" + executionNumber + queryString(params); 
+      const resource =  "task_log_raw/" + id + "/" + executionNumber + queryString(params);
       this.getUIResource(callback, resource);
   }
 
