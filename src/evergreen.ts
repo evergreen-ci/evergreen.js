@@ -6,11 +6,11 @@ export class client {
     public apiURL: string;
     public uiURL: string;
 
-    constructor(username: string, key: string, serverURL: string, webURL: string) {
-        this.username = username;
-        this.key = key;
+    constructor(serverURL: string, webURL: string, username?: string, key?: string) {
         this.apiURL = serverURL;
         this.uiURL = webURL;
+        this.username = username;
+        this.key = key;
     }
 
     /**
@@ -23,7 +23,7 @@ export class client {
      */
     public getAPIResource(callback: request.RequestCallback, resource: string, params?: object) {
         const url = this.apiURL + "/" + resource + queryString(params);
-        request.get(this.formRequest(url), callback);
+        request.get(this.formRequest(url, true), callback);
     }
 
     /**
@@ -36,7 +36,7 @@ export class client {
      */
     public getUIResource(callback: request.RequestCallback, resource: string, params?: object) {
         const url = this.uiURL + "/" + resource + queryString(params);
-        request.get(this.formRequest(url), callback);
+        request.get(this.formRequest(url, true), callback);
   }
 
     /**
@@ -49,7 +49,7 @@ export class client {
      */
     public postAPIResource(callback: request.RequestCallback, resource: string, body: any) {
         const url = this.apiURL + "/" + resource;
-        request.post(this.formRequest(url, body), callback);
+        request.post(this.formRequest(url, false, body), callback);
     }
 
     /**
@@ -62,7 +62,7 @@ export class client {
      */
     public postUIResource(callback: request.RequestCallback, resource: string, body: any) {
         const url = this.uiURL + "/" + resource;
-        request.post(this.formRequest(url, body), callback);
+        request.post(this.formRequest(url, false, body), callback);
   }
 
     // routes are below
@@ -188,21 +188,24 @@ export class client {
         this.postAPIResource(callback, apiV2Resource("admin/settings"), body);
     }
 
-    private formRequest(url: string, body?: any): requestOpts {
-        const opts: requestOpts = {
-            headers: {
-                "Api-User": this.username,
-                "Api-Key": this.key,
-            },
-            url: url,
+    private formRequest(url: string, requireHeaders: boolean, body?: any): requestOpts {
+      let headers = {};
+      if (requireHeaders) {
+        headers = {
+          "Api-User": this.username,
+          "Api-Key": this.key,
         };
-        if (body) {
-            opts.body = body;
-            opts.json = true;
-        }
-
-        return opts;
-    }
+      }
+      const opts: requestOpts = {
+        headers: headers,
+        url: url,
+      };
+      if (body) {
+          opts.body = body;
+          opts.json = true;
+      }
+      return opts;
+  }
     // end routes
 }
 
