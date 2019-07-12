@@ -142,6 +142,26 @@ export class client {
   }
 
   /**
+   * Gets tasks for a given build ID
+   * @param id- build ID whose tasks we want
+   * @returns nothing
+   */
+  public getTasks(callback: request.RequestCallback, id: string) {
+    const resource = "builds/" + id + "/tasks";
+    this.getAPIResource(callback, apiV2Resource(resource));
+  }
+
+  /**
+   * Gets tests for a given task ID
+   * @param id- task ID whose tests we want
+   * @returns nothing
+   */
+  public getTests(callback: request.RequestCallback, id: string) {
+    const resource = "tasks/" + id + "/tests";
+    this.getAPIResource(callback, apiV2Resource(resource));
+  }
+
+  /**
    * Gets the admin settings
    *
    * @param callback - function to process the response
