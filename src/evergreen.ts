@@ -143,7 +143,7 @@ export class client {
 
   /**
    * Gets tasks for a given build ID
-   * @param id- build ID whose tasks we want
+   * @param id - build ID whose tasks we want
    * @returns nothing
    */
   public getTasks(callback: request.RequestCallback, id: string) {
@@ -153,7 +153,7 @@ export class client {
 
   /**
    * Gets tests for a given task ID
-   * @param id- task ID whose tests we want
+   * @param id - task ID whose tests we want
    * @returns nothing
    */
   public getTests(callback: request.RequestCallback, id: string) {
