@@ -110,6 +110,36 @@ test("patches test with real username", (done) => {
   evergreen.getPatches(callback, username);
 });
 
+test("task test with real id", (done) => {
+  const evergreen = getEvergreenClient();
+  const id = "mongodb_mongo_master_enterprise_rhel_62_64_bit_patch_aa9f6a202e0709adf14046cb27504864adaf732b_5d28d45fd1fe0716daa6b903_19_07_12_18_41_36";
+
+  const callback = (error: any, response: request.Response, body: any): void => {
+    expect(error).toBe(null);
+    expect(response.statusCode).toBe(200);
+    expect(body).not.toBe(null);
+    expect(body).not.toBe(undefined);
+    done();
+  };
+
+  evergreen.getTasks(callback, id);
+});
+
+test("test method test with real id", (done) => {
+  const evergreen = getEvergreenClient();
+  const id = "mongodb_mongo_master_enterprise_rhel_62_64_bit_aggregation_auth_patch_aa9f6a202e0709adf14046cb27504864adaf732b_5d28d45fd1fe0716daa6b903_19_07_12_18_41_36";
+
+  const callback = (error: any, response: request.Response, body: any): void => {
+    expect(error).toBe(null);
+    expect(response.statusCode).toBe(200);
+    expect(body).not.toBe(null);
+    expect(body).not.toBe(undefined);
+    done();
+  };
+
+  evergreen.getTests(callback, id);
+});
+
 test("log test with real task id", (done) => {
   const evergreen = getEvergreenClient();
   const taskId = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
