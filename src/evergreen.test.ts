@@ -21,7 +21,7 @@ function getEvergreenClient(): client {
     webURL = localConfig.ui_server_host;
   }
 
-  return new client(user, key, serverURL, webURL);
+  return new client(serverURL, webURL, user, key);
 }
 
 test("Evergreen client is constructed correctly", () => {
@@ -29,7 +29,7 @@ test("Evergreen client is constructed correctly", () => {
   const key = "abc123";
   const serverURL = "www.example.com";
   const webURL = "www.example.com";
-  const evergreen = new client(user, key, serverURL, webURL);
+  const evergreen = new client(serverURL, webURL, user, key);
 
   expect(evergreen.username).toBe(user);
   expect(evergreen.key).toBe(key);
@@ -138,6 +138,23 @@ test("test method test with real id", (done) => {
   };
 
   evergreen.getTests(callback, id);
+});
+
+test("log test with real task id", (done) => {
+  const evergreen = getEvergreenClient();
+  const taskId = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
+  const logType = "ALL";
+  const executionNum = 0;
+
+  const callback = (error: any, response: request.Response, body: any): void => {
+    expect(error).toBe(null);
+    expect(response.statusCode).toBe(200);
+    expect(body).not.toBe(null);
+    expect(body).not.toBe(undefined);
+    done();
+  };
+
+  evergreen.getLogs(callback, taskId, logType, executionNum);
 });
 
 test("log test with real task id", (done) => {

@@ -1,81 +1,81 @@
 import * as request from "request";
 
 export class client {
-  public username: string;
-  public key: string;
-  public apiURL: string;
-  public uiURL: string;
+    public username: string;
+    public key: string;
+    public apiURL: string;
+    public uiURL: string;
 
-  constructor(username: string, key: string, serverURL: string, webURL: string) {
-    this.username = username;
-    this.key = key;
-    this.apiURL = serverURL;
-    this.uiURL = webURL;
+    constructor(serverURL: string, webURL: string, username?: string, key?: string) {
+        this.apiURL = serverURL;
+        this.uiURL = webURL;
+        this.username = username;
+        this.key = key;
+    }
+
+    /**
+     * General function to send a HTTP GET to the Evergreen API
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to GET, can be a path
+     * @param params - query params to append to the request URL, in the format {"param": "value"}
+     * @returns nothing
+     */
+    public getAPIResource(callback: request.RequestCallback, resource: string, params?: object) {
+        const url = this.apiURL + "/" + resource + queryString(params);
+        request.get(this.formRequest(url, true), callback);
+    }
+
+    /**
+     * General function to send a HTTP GET to the Evergreen UI
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to GET, can be a path
+     * @param params - query params to append to the request URL, in the format {"param": "value"}
+     * @returns nothing
+     */
+    public getUIResource(callback: request.RequestCallback, resource: string, params?: object) {
+        const url = this.uiURL + "/" + resource + queryString(params);
+        request.get(this.formRequest(url, true), callback);
   }
 
-  /**
-   * General function to send a HTTP GET to the Evergreen API
-   *
-   * @param callback - function to process the response
-   * @param resource - resource to GET, can be a path
-   * @param params - query params to append to the request URL, in the format {"param": "value"}
-   * @returns nothing
-   */
-  public getAPIResource(callback: request.RequestCallback, resource: string, params?: object) {
-    const url = this.apiURL + "/" + resource + queryString(params);
-    request.get(this.formRequest(url), callback);
+    /**
+     * General function to send a HTTP POST to Evergreen
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to POST to, can be a path
+     * @param body - body of the request, usually as an object
+     * @returns nothing
+     */
+    public postAPIResource(callback: request.RequestCallback, resource: string, body: any) {
+        const url = this.apiURL + "/" + resource;
+        request.post(this.formRequest(url, false, body), callback);
+    }
+
+    /**
+     * General function to send a HTTP POST to the Evergreen UI
+     *
+     * @param callback - function to process the response
+     * @param resource - resource to POST to, can be a path
+     * @param body - body of the request, usually as an object
+     * @returns nothing
+     */
+    public postUIResource(callback: request.RequestCallback, resource: string, body: any) {
+        const url = this.uiURL + "/" + resource;
+        request.post(this.formRequest(url, false, body), callback);
   }
 
-  /**
-   * General function to send a HTTP GET to the Evergreen UI
-   *
-   * @param callback - function to process the response
-   * @param resource - resource to GET, can be a path
-   * @param params - query params to append to the request URL, in the format {"param": "value"}
-   * @returns nothing
-   */
-  public getUIResource(callback: request.RequestCallback, resource: string, params?: object) {
-    const url = this.uiURL + "/" + resource + queryString(params);
-    request.get(this.formRequest(url), callback);
-  }
+    // routes are below
 
-  /**
-   * General function to send a HTTP POST to Evergreen
-   *
-   * @param callback - function to process the response
-   * @param resource - resource to POST to, can be a path
-   * @param body - body of the request, usually as an object
-   * @returns nothing
-   */
-  public postAPIResource(callback: request.RequestCallback, resource: string, body: any) {
-    const url = this.apiURL + "/" + resource;
-    request.post(this.formRequest(url, body), callback);
-  }
-
-  /**
-   * General function to send a HTTP POST to the Evergreen UI
-   *
-   * @param callback - function to process the response
-   * @param resource - resource to POST to, can be a path
-   * @param body - body of the request, usually as an object
-   * @returns nothing
-   */
-  public postUIResource(callback: request.RequestCallback, resource: string, body: any) {
-    const url = this.uiURL + "/" + resource;
-    request.post(this.formRequest(url, body), callback);
-  }
-
-  // routes are below
-
-  /**
-   * Gets all distros
-   *
-   * @param callback - function to process the response
-   * @returns nothing
-   */
-  public getDistros(callback: request.RequestCallback) {
-    this.getAPIResource(callback, apiV2Resource("distros"));
-  }
+    /**
+     * Gets all distros
+     *
+     * @param callback - function to process the response
+     * @returns nothing
+     */
+    public getDistros(callback: request.RequestCallback) {
+        this.getAPIResource(callback, apiV2Resource("distros"));
+    }
 
   /**
    * Gets aggregated or detailed stats for tasks that have finished recently
@@ -208,22 +208,26 @@ export class client {
     this.postAPIResource(callback, apiV2Resource("admin/settings"), body);
   }
 
-  private formRequest(url: string, body?: any): requestOpts {
-    const opts: requestOpts = {
-      headers: {
-        "Api-User": this.username,
-        "Api-Key": this.key,
-      },
-      url: url,
-    };
-    if (body) {
-      opts.body = body;
-      opts.json = true;
-    }
-
-    return opts;
-  }
   // end routes
+    private formRequest(url: string, requireHeaders: boolean, body?: any): requestOpts {
+      let headers = {};
+      if (requireHeaders) {
+        headers = {
+          "Api-User": this.username,
+          "Api-Key": this.key,
+        };
+      }
+      const opts: requestOpts = {
+        headers: headers,
+        url: url,
+      };
+      if (body) {
+          opts.body = body;
+          opts.json = true;
+      }
+      return opts;
+  }
+    // end routes
 }
 
 export function apiV2Resource(resource: string): string {
