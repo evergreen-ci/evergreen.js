@@ -142,6 +142,16 @@ export class client {
   }
 
   /**
+   * Gets build for a given build ID
+   * @param id - build ID whose tasks we want
+   * @returns nothing
+   */
+  public getBuild(callback: request.RequestCallback, id: string) {
+    const resource = "builds/" + id;
+    this.getAPIResource(callback, apiV2Resource(resource));
+  }
+
+  /**
    * Gets tasks for a given build ID
    * @param id - build ID whose tasks we want
    * @returns nothing

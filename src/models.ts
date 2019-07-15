@@ -5,12 +5,16 @@ export function ConvertToAdminSettings(raw: string): AdminSettings {
   return plainToClass(AdminSettings, JSON.parse(raw) as object);
 }
 
-export function ConvertToPatches(raw: string): Patches {
-  return plainToClass(Patches, JSON.parse(raw) as object);
-}
-
 export function ConvertToAPITasks(raw: string): APITasks {
   return plainToClass(APITasks, JSON.parse(raw) as object);
+}
+
+export function ConvertToBuild(raw: string): Build {
+  return plainToClass(Build, JSON.parse(raw) as object);
+}
+
+export function ConvertToPatches(raw: string): Patches {
+  return plainToClass(Patches, JSON.parse(raw) as object);
 }
 
 /* tslint:disable:variable-name */
@@ -304,7 +308,7 @@ export class Version {
   public trigger_event?: string;
 }
 
-class Build {
+export class Build {
   public _id: string;
   public create_time: Date;
   public start_time: Date;
