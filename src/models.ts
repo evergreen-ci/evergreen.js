@@ -5,8 +5,9 @@ export function ConvertToAdminSettings(raw: string): AdminSettings {
   return plainToClass(AdminSettings, JSON.parse(raw) as object);
 }
 
-export function ConvertToAPITasks(raw: string): APITasks {
-  return plainToClass(APITasks, JSON.parse(raw) as object);
+export function ConvertToAPITasks(raw: string): APITask {
+  const objArray = JSON.parse(raw);
+  return plainToClass(APITask, objArray);
 }
 
 export function ConvertToBuild(raw: string): Build {
@@ -315,7 +316,7 @@ export class Build {
   public finish_time: Date;
   public version: string;
   public branch: string;
-  public gitspec: string;
+  public git_hash: string;
   public build_variant: string;
   public build_number: string;
   public status: string;
@@ -416,10 +417,6 @@ export class VariantTasks {
 export class DisplayTask {
   public Name?: string;
   public ExecTasks?: string[];
-}
-
-export class APITasks {
-  public tasks: APITask[];
 }
 
 export class APITask {
