@@ -140,11 +140,9 @@ test("test method test with real id", (done) => {
   evergreen.getTests(callback, id);
 });
 
-test("log test with real task id", (done) => {
+test("log test with real task url", (done) => {
   const evergreen = getEvergreenClient();
-  const taskId = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
-  const logType = "ALL";
-  const executionNum = 0;
+  const url = "https://evergreen.mongodb.com/task_log_raw/spruce_ubuntu1604_compile_patch_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_5d28cfa05623434037b0294c_19_07_12_18_21_22/0?type=ALL";
 
   const callback = (error: any, response: request.Response, body: any): void => {
     expect(error).toBe(null);
@@ -154,22 +152,5 @@ test("log test with real task id", (done) => {
     done();
   };
 
-  evergreen.getLogs(callback, taskId, logType, executionNum);
-});
-
-test("log test with real task id", (done) => {
-  const evergreen = getEvergreenClient();
-  const taskId = "spruce_ubuntu1604_compile_e44b6da8831497cdd4621daf4c62985f0c1c9ca9_19_07_08_18_39_15";
-  const logType = "ALL";
-  const executionNum = 0;
-
-  const callback = (error: any, response: request.Response, body: any): void => {
-    expect(error).toBe(null);
-    expect(response.statusCode).toBe(200);
-    expect(body).not.toBe(null);
-    expect(body).not.toBe(undefined);
-    done();
-  };
-
-  evergreen.getLogs(callback, taskId, logType, executionNum);
+  evergreen.getLogs(callback, url);
 });

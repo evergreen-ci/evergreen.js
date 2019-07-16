@@ -132,13 +132,9 @@ export class client {
    * @param type - type of log to return
    * @returns nothing
    */
-  public getLogs(callback: request.RequestCallback, id: string, type: string, executionNumber: number) {
-    const params = {
-      type: type,
-      text: true,
-    };
-    const resource = "task_log_raw/" + id + "/" + executionNumber + queryString(params);
-    this.getUIResource(callback, resource);
+  public getLogs(callback: request.RequestCallback, url: string) {
+    const textUrl = url + "&text=true";
+    request.get(textUrl, callback);
   }
 
   /**
