@@ -128,13 +128,18 @@ export class client {
   /**
    * Gets logs of a particular type for a particular task/
    * @param callback - function to process the response
-   * @param id - identifier for the task whose logs we want
+   * @param taskId - identifier for the task whose logs we want
    * @param type - type of log to return
    * @returns nothing
    */
-  public getLogs(callback: request.RequestCallback, url: string) {
-    const textUrl = url + "&text=true";
-    request.get(textUrl, callback);
+
+  public getLogs(callback: request.RequestCallback, taskId: string, type: string, executionNumber: number) {
+    const params = {
+      type: type,
+      text: true,
+    };
+    const resource =  "task_log_raw/" + taskId + "/" + executionNumber + queryString(params);
+    this.getUIResource(callback, resource);
   }
 
   /**
@@ -149,21 +154,21 @@ export class client {
 
   /**
    * Gets tasks for a given build ID
-   * @param id - build ID whose tasks we want
+   * @param buildId - build ID whose tasks we want
    * @returns nothing
    */
-  public getTasks(callback: request.RequestCallback, id: string) {
-    const resource = "builds/" + id + "/tasks";
+  public getTasksForBuild(callback: request.RequestCallback, buildId: string) {
+    const resource = "builds/" + buildId + "/tasks";
     this.getAPIResource(callback, apiV2Resource(resource));
   }
 
   /**
    * Gets tests for a given task ID
-   * @param id - task ID whose tests we want
+   * @param taskId - task ID whose tests we want
    * @returns nothing
    */
-  public getTests(callback: request.RequestCallback, id: string) {
-    const resource = "tasks/" + id + "/tests";
+  public getTestsForTask(callback: request.RequestCallback, taskId: string) {
+    const resource = "tasks/" + taskId + "/tests";
     this.getAPIResource(callback, apiV2Resource(resource));
   }
 
