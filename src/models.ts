@@ -5,6 +5,15 @@ export function ConvertToAdminSettings(raw: string): AdminSettings {
   return plainToClass(AdminSettings, JSON.parse(raw) as object);
 }
 
+export function ConvertToAPITasks(raw: string): APITask {
+  const objArray = JSON.parse(raw);
+  return plainToClass(APITask, objArray);
+}
+
+export function ConvertToBuild(raw: string): Build {
+  return plainToClass(Build, JSON.parse(raw) as object);
+}
+
 export function ConvertToPatches(raw: string): Patches {
   return plainToClass(Patches, JSON.parse(raw) as object);
 }
@@ -300,14 +309,14 @@ export class Version {
   public trigger_event?: string;
 }
 
-class Build {
+export class Build {
   public _id: string;
   public create_time: Date;
   public start_time: Date;
   public finish_time: Date;
   public version: string;
   public branch: string;
-  public gitspec: string;
+  public git_hash: string;
   public build_variant: string;
   public build_number: string;
   public status: string;
@@ -408,6 +417,68 @@ export class VariantTasks {
 export class DisplayTask {
   public Name?: string;
   public ExecTasks?: string[];
+}
+
+export class APITask {
+  public task_id?: string;
+  public project_id?: string;
+  public create_time: Time;
+  public dispatch_time: Time;
+  public scheduled_time: Time;
+  public start_time: Time;
+  public finish_time: Time;
+  public ingest_time: Time;
+  public version_id?: string;
+  public revision?: string;
+  public priority: number;
+  public activated: boolean;
+  public activated_by?: string;
+  public build_id?: string;
+  public distro_id?: string;
+  public build_variant?: string;
+  public depends_on: string[];
+  public display_name?: string;
+  public host_id?: string;
+  public restarts: number;
+  public execution: number;
+  public order: number;
+  public status?: string;
+  public status_details: APITaskEndDetail;
+  public logs: APITaskLogLinks;
+  public time_taken_ms: number;
+  public expected_duration_ms: number;
+  public est_wait_to_start_ms: number;
+  public estimated_cost: number;
+  public previous_executions: APITask[];
+  public generate_task: boolean;
+  public generated_by: string;
+  public artifacts: APIFile[];
+  public display_only: boolean;
+  public execution_tasks?: string[];
+  public mainline: boolean;
+  public task_group: string;
+  public task_group_max_hosts: number;
+}
+
+export class APIFile {
+  public name?: string;
+  public link?: string;
+  public visibility?: string;
+  public ignore_for_fetch: boolean;
+}
+
+export class APITaskEndDetail {
+  public status?: string;
+  public type?: string;
+  public description?: string;
+  public timed_out: boolean;
+}
+
+export class APITaskLogLinks {
+  public all_log?: string;
+  public task_log?: string;
+  public agent_log?: string;
+  public system_log?: string;
 }
 
 export class VSphereConfig {
