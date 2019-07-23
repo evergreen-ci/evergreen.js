@@ -494,7 +494,7 @@ export class TestLogs {
 }
 
 export class APITest {
-  public test_id?: string;
+  public task_id?: string;
   public status?: string;
   public test_file?: string;
   public logs?: TestLogs;
