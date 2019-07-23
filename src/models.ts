@@ -10,6 +10,11 @@ export function ConvertToAPITasks(raw: string): APITask {
   return plainToClass(APITask, objArray);
 }
 
+export function ConvertToAPITests(raw: string): APITest {
+  const objArray = JSON.parse(raw);
+  return plainToClass(APITest, objArray);
+}
+
 export function ConvertToBuild(raw: string): Build {
   return plainToClass(Build, JSON.parse(raw) as object);
 }
@@ -479,6 +484,23 @@ export class APITaskLogLinks {
   public task_log?: string;
   public agent_log?: string;
   public system_log?: string;
+}
+
+export class TestLogs {
+  public url?: string;
+  public line_num?: number;
+  public url_raw?: string;
+  public log_id?: string;
+}
+
+export class APITest {
+  public task_id?: string;
+  public status?: string;
+  public test_file?: string;
+  public logs?: TestLogs;
+  public exit_code?: number;
+  public start_time?: Time;
+  public end_time?: Time;
 }
 
 export class VSphereConfig {
