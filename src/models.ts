@@ -32,6 +32,7 @@ export class AdminSettings {
   public auth?: AuthConfig;
   public banner?: string;
   public banner_theme?: string;
+  public bugsnag?: string;
   public client_binaries_dir?: string;
   public configdir?: string;
   public container_pools?: ContainerPools;
