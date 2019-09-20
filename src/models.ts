@@ -202,8 +202,8 @@ export class OpenStackConfig {
 }
 
 export class Patches {
-  public VersionsMap?: Record<string, UIVersion>;
-  public UIPatches?: UIPatch[];
+  public BuildsMap?: Record<string, BuildInfo[]>;
+  public UIPatches?: PatchInfo[];
   public PageNum?: number;
 }
 
@@ -606,7 +606,8 @@ export class PatchInfo {
 	create_time: Date;
 	project: string;
 	description: string;
-	githash: string;
+  githash: string;
+  status: string;
 	base_version_id: string;
 }
 
