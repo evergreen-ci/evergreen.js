@@ -598,3 +598,46 @@ export class JasperConfig {
   public url?: string;
   public version?: string;
 }
+
+export class PatchInfo {
+	id: string;
+	version: string;
+	author: string;
+	create_time: Date;
+	project: string;
+	description: string;
+	githash: string;
+	base_version_id: string;
+}
+
+export class LogInfo {
+	command: string;
+	url: string;
+}
+
+export class TaskLogs {
+	agent: LogInfo[];
+	system: LogInfo[];
+	task: LogInfo[];
+}
+
+export class TaskEndDetail {
+	status?: string;
+	type?: string;
+	desc?: string;
+	timed_out?: boolean;
+	logs?: TaskLogs | null;
+}
+
+export class TaskInfo {
+	id: string;
+	display_name: string;
+	status: string;
+	status_details: TaskEndDetail;
+}
+
+export class BuildInfo {
+	id: string;
+	display_name: string;
+	tasks: TaskInfo[];
+}
