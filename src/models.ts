@@ -600,45 +600,45 @@ export class JasperConfig {
 }
 
 export class PatchInfo {
-	id: string;
-	version: string;
-	author: string;
-	create_time: Date;
-	project: string;
-	description: string;
-  githash: string;
-  status: string;
-	base_version_id: string;
+  public id: string;
+  public version: string;
+  public author: string;
+  public create_time: Date;
+  public project: string;
+  public description: string;
+  public githash: string;
+  public status: string;
+  public base_version_id: string;
 }
 
 export class LogInfo {
-	command: string;
-	url: string;
+  public command: string;
+  public url: string;
 }
 
 export class TaskLogs {
-	agent: LogInfo[];
-	system: LogInfo[];
-	task: LogInfo[];
+  public agent: LogInfo[];
+  public system: LogInfo[];
+  public task: LogInfo[];
 }
 
 export class TaskEndDetail {
-	status?: string;
-	type?: string;
-	desc?: string;
-	timed_out?: boolean;
-	logs?: TaskLogs | null;
+  public status?: string;
+  public type?: string;
+  public desc?: string;
+  public timed_out?: boolean;
+  public logs?: TaskLogs | null;
 }
 
 export class TaskInfo {
-	id: string;
-	display_name: string;
-	status: string;
-	status_details: TaskEndDetail;
+  public id: string;
+  public display_name: string;
+  public status: string;
+  public status_details: TaskEndDetail;
 }
 
 export class BuildInfo {
-	id: string;
-	display_name: string;
-	tasks: TaskInfo[];
+  public id: string;
+  public display_name: string;
+  public tasks: TaskInfo[];
 }
