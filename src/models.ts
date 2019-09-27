@@ -202,8 +202,8 @@ export class OpenStackConfig {
 }
 
 export class Patches {
-  public VersionsMap?: Record<string, UIVersion>;
-  public UIPatches?: UIPatch[];
+  public BuildsMap?: Record<string, BuildInfo[]>;
+  public UIPatches?: PatchInfo[];
   public PageNum?: number;
 }
 
@@ -597,4 +597,48 @@ export class JasperConfig {
   public port?: number;
   public url?: string;
   public version?: string;
+}
+
+export class PatchInfo {
+  public id: string;
+  public version: string;
+  public author: string;
+  public create_time: Date;
+  public project: string;
+  public description: string;
+  public githash: string;
+  public status: string;
+  public base_version_id: string;
+}
+
+export class LogInfo {
+  public command: string;
+  public url: string;
+}
+
+export class TaskLogs {
+  public agent: LogInfo[];
+  public system: LogInfo[];
+  public task: LogInfo[];
+}
+
+export class TaskEndDetail {
+  public status?: string;
+  public type?: string;
+  public desc?: string;
+  public timed_out?: boolean;
+  public logs?: TaskLogs | null;
+}
+
+export class TaskInfo {
+  public id: string;
+  public display_name: string;
+  public status: string;
+  public status_details: TaskEndDetail;
+}
+
+export class BuildInfo {
+  public id: string;
+  public display_name: string;
+  public tasks: TaskInfo[];
 }
