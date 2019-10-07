@@ -609,6 +609,7 @@ export class PatchInfo {
   public githash: string;
   public status: string;
   public base_version_id: string;
+  public alias: string;
 }
 
 export class LogInfo {
