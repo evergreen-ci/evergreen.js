@@ -1,4 +1,5 @@
-import * as request from "request";
+import Axios, { AxiosPromise, AxiosRequestConfig, Method } from "axios";
+import * as models from "./models";
 
 export class client {
   public username: string;
@@ -21,9 +22,9 @@ export class client {
    * @param params - query params to append to the request URL, in the format {"param": "value"}
    * @returns nothing
    */
-  public getAPIResource(callback: request.RequestCallback, resource: string, params?: object) {
+  public getAPIResource(resource: string, params?: object): AxiosPromise {
     const url = this.apiURL + "/" + resource + queryString(params);
-    request.get(this.formRequest(url, true), callback);
+    return Axios(this.formRequest("GET", url, true));
   }
 
   /**
@@ -34,9 +35,9 @@ export class client {
    * @param params - query params to append to the request URL, in the format {"param": "value"}
    * @returns nothing
    */
-  public getUIResource(callback: request.RequestCallback, resource: string, params?: object) {
+  public getUIResource(resource: string, params?: object): AxiosPromise {
     const url = this.uiURL + "/" + resource + queryString(params);
-    request.get(this.formRequest(url, true), callback);
+    return Axios(this.formRequest("GET", url, false));
   }
 
   /**
@@ -47,9 +48,9 @@ export class client {
    * @param body - body of the request, usually as an object
    * @returns nothing
    */
-  public postAPIResource(callback: request.RequestCallback, resource: string, body: any) {
+  public postAPIResource(resource: string, body: any): AxiosPromise {
     const url = this.apiURL + "/" + resource;
-    request.post(this.formRequest(url, false, body), callback);
+    return Axios(this.formRequest("POST", url, true, body));
   }
 
   /**
@@ -60,9 +61,9 @@ export class client {
    * @param body - body of the request, usually as an object
    * @returns nothing
    */
-  public postUIResource(callback: request.RequestCallback, resource: string, body: any) {
+  public postUIResource(resource: string, body: any): AxiosPromise {
     const url = this.uiURL + "/" + resource;
-    request.post(this.formRequest(url, false, body), callback);
+    return Axios(this.formRequest("POST", url, false, body));
   }
 
   // routes are below
@@ -73,8 +74,8 @@ export class client {
    * @param callback - function to process the response
    * @returns nothing
    */
-  public getDistros(callback: request.RequestCallback) {
-    this.getAPIResource(callback, apiV2Resource("distros"));
+  public getDistros(): AxiosPromise<any> { // TODO: add type of resp
+    return this.getAPIResource(apiV2Resource("distros"));
   }
 
   /**
@@ -86,13 +87,13 @@ export class client {
    * @param status - task statuses (can be comma-separated list) to filter on
    * @returns nothing
    */
-  public getRecentTasks(callback: request.RequestCallback, verbose?: boolean, lookbackMins?: number, status?: string) {
+  public getRecentTasks(verbose?: boolean, lookbackMins?: number, status?: string): AxiosPromise<any> { // TODO: add type of resp
     const params = {
       verbose: verbose,
       minutes: lookbackMins,
       status: status,
     };
-    this.getAPIResource(callback, apiV2Resource("status/recent_tasks"), params);
+    return this.getAPIResource(apiV2Resource("status/recent_tasks"), params);
   }
 
   /**
@@ -103,12 +104,12 @@ export class client {
    * @param password - Evergreen user's password
    * @returns nothing
    */
-  public getToken(callback: request.RequestCallback, username?: string, password?: string) {
+  public getToken(username?: string, password?: string): AxiosPromise<any> { // TODO: add type of resp
     const params = {
       username: username,
       password: password,
     };
-    this.postUIResource(callback, "login", params);
+    return this.postUIResource("login", params);
   }
 
   /**
@@ -117,12 +118,12 @@ export class client {
    * @param username - Evergreen user's username
    * @returns nothing
    */
-  public getPatches(callback: request.RequestCallback, username?: string, page?: number) {
+  public getPatches(username?: string, page?: number): AxiosPromise<models.Patches> {
     const resource = "json/patches/user/" + username;
     const params = {
       page: page,
     };
-    this.getUIResource(callback, resource, params);
+    return this.getUIResource(resource, params);
   }
 
   /**
@@ -133,13 +134,13 @@ export class client {
    * @returns nothing
    */
 
-  public getLogs(callback: request.RequestCallback, taskId: string, type: string, executionNumber: number) {
+  public getLogs(taskId: string, type: string, executionNumber: number): AxiosPromise<string> {
     const params = {
       type: type,
       text: true,
     };
-    const resource =  "task_log_raw/" + taskId + "/" + executionNumber + queryString(params);
-    this.getUIResource(callback, resource);
+    const resource = "task_log_raw/" + taskId + "/" + executionNumber + queryString(params);
+    return this.getUIResource(resource);
   }
 
   /**
@@ -147,9 +148,9 @@ export class client {
    * @param id - build ID whose tasks we want
    * @returns nothing
    */
-  public getBuild(callback: request.RequestCallback, id: string) {
+  public getBuild(id: string): AxiosPromise<models.Build> {
     const resource = "builds/" + id;
-    this.getAPIResource(callback, apiV2Resource(resource));
+    return this.getAPIResource(apiV2Resource(resource));
   }
 
   /**
@@ -157,9 +158,9 @@ export class client {
    * @param buildId - build ID whose tasks we want
    * @returns nothing
    */
-  public getTasksForBuild(callback: request.RequestCallback, buildId: string) {
+  public getTasksForBuild(buildId: string): AxiosPromise<models.APITask[]> {
     const resource = "builds/" + buildId + "/tasks";
-    this.getAPIResource(callback, apiV2Resource(resource));
+    return this.getAPIResource(apiV2Resource(resource));
   }
 
   /**
@@ -167,9 +168,9 @@ export class client {
    * @param taskId - task ID whose tests we want
    * @returns nothing
    */
-  public getTestsForTask(callback: request.RequestCallback, taskId: string) {
+  public getTestsForTask(taskId: string): AxiosPromise<models.APITest[]> {
     const resource = "tasks/" + taskId + "/tests";
-    this.getAPIResource(callback, apiV2Resource(resource));
+    return this.getAPIResource(apiV2Resource(resource));
   }
 
   /**
@@ -178,19 +179,19 @@ export class client {
    * @param callback - function to process the response
    * @returns nothing
    */
-  public getAdminConfig(callback: request.RequestCallback) {
-    this.getAPIResource(callback, apiV2Resource("admin/settings"));
+  public getAdminConfig(): AxiosPromise<models.AdminSettings> {
+    return this.getAPIResource(apiV2Resource("admin/settings"));
   }
 
   /**
    * Sets the admin settings
    *
    * @param callback - function to process the response
-   * @param settings - settings object to set in the db. TODO: this should probably be of type models.AdminSettings
+   * @param settings - settings object to set in the db
    * @returns nothing
    */
-  public setAdminConfig(callback: request.RequestCallback, settings: any) {
-    this.postAPIResource(callback, apiV2Resource("admin/settings"), settings);
+  public setAdminConfig(settings: models.AdminSettings): AxiosPromise<models.AdminSettings> {
+    return this.postAPIResource(apiV2Resource("admin/settings"), settings);
   }
 
   /**
@@ -199,8 +200,8 @@ export class client {
    * @param callback - function to process the response
    * @returns nothing
    */
-  public getBanner(callback: request.RequestCallback) {
-    this.getAPIResource(callback, apiV2Resource("admin/banner"));
+  public getBanner(): AxiosPromise<any> {  // TODO: add type of resp
+    return this.getAPIResource(apiV2Resource("admin/banner"));
   }
 
   /**
@@ -211,16 +212,16 @@ export class client {
    * @param theme - color theme to use
    * @returns nothing
    */
-  public setBanner(callback: request.RequestCallback, message: string, theme: string) {
+  public setBanner(message: string, theme: string): AxiosPromise<any> {  // TODO: add type of resp
     const body = {
       banner: message,
       theme: theme,
     };
-    this.postAPIResource(callback, apiV2Resource("admin/settings"), body);
+    return this.postAPIResource(apiV2Resource("admin/settings"), body);
   }
 
   // end routes
-  private formRequest(url: string, requireHeaders: boolean, body?: any): requestOpts {
+  private formRequest(method: Method, url: string, requireHeaders: boolean, body?: any): AxiosRequestConfig {
     let headers = {};
     if (requireHeaders) {
       headers = {
@@ -228,17 +229,17 @@ export class client {
         "Api-Key": this.key,
       };
     }
-    const opts: requestOpts = {
+    const opts: AxiosRequestConfig = {
       headers: headers,
       url: url,
+      withCredentials: true,
+      method: method,
     };
     if (body) {
-      opts.body = body;
-      opts.json = true;
+      opts.data = body;
     }
     return opts;
   }
-  // end routes
 }
 
 export function apiV2Resource(resource: string): string {
@@ -257,11 +258,4 @@ export function queryString(params?: object): string {
   }
 
   return queryStr.slice(0, -1);
-}
-
-interface requestOpts {
-  url: string;
-  headers: object;
-  body?: any;
-  json?: boolean;
 }

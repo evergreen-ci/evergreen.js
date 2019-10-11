@@ -1,26 +1,24 @@
 import { plainToClass } from "class-transformer";
 
 // current as of 1370c53df007bf03b6d297a0a1e01b63843b08c7
-export function ConvertToAdminSettings(raw: string): AdminSettings {
-  return plainToClass(AdminSettings, JSON.parse(raw) as object);
+export function ConvertToAdminSettings(raw: object): AdminSettings {
+  return plainToClass(AdminSettings, raw);
 }
 
-export function ConvertToAPITasks(raw: string): APITask {
-  const objArray = JSON.parse(raw);
-  return plainToClass(APITask, objArray);
+export function ConvertToAPITasks(raw: object): APITask {
+  return plainToClass(APITask, raw);
 }
 
-export function ConvertToAPITests(raw: string): APITest {
-  const objArray = JSON.parse(raw);
-  return plainToClass(APITest, objArray);
+export function ConvertToAPITests(raw: object): APITest {
+  return plainToClass(APITest, raw);
 }
 
-export function ConvertToBuild(raw: string): Build {
-  return plainToClass(Build, JSON.parse(raw) as object);
+export function ConvertToBuild(raw: object): Build {
+  return plainToClass(Build, raw);
 }
 
-export function ConvertToPatches(raw: string): Patches {
-  return plainToClass(Patches, JSON.parse(raw) as object);
+export function ConvertToPatches(raw: object): Patches {
+  return plainToClass(Patches, raw);
 }
 
 /* tslint:disable:variable-name */
