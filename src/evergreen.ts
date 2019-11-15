@@ -17,10 +17,9 @@ export class client {
   /**
    * General function to send a HTTP GET to the Evergreen API
    *
-   * @param callback - function to process the response
    * @param resource - resource to GET, can be a path
    * @param params - query params to append to the request URL, in the format {"param": "value"}
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getAPIResource(resource: string, params?: object): AxiosPromise {
     const url = this.apiURL + "/" + resource + queryString(params);
@@ -30,10 +29,9 @@ export class client {
   /**
    * General function to send a HTTP GET to the Evergreen UI
    *
-   * @param callback - function to process the response
    * @param resource - resource to GET, can be a path
    * @param params - query params to append to the request URL, in the format {"param": "value"}
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getUIResource(resource: string, params?: object): AxiosPromise {
     const url = this.uiURL + "/" + resource + queryString(params);
@@ -43,10 +41,9 @@ export class client {
   /**
    * General function to send a HTTP POST to Evergreen
    *
-   * @param callback - function to process the response
    * @param resource - resource to POST to, can be a path
    * @param body - body of the request, usually as an object
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public postAPIResource(resource: string, body: any): AxiosPromise {
     const url = this.apiURL + "/" + resource;
@@ -56,10 +53,9 @@ export class client {
   /**
    * General function to send a HTTP POST to the Evergreen UI
    *
-   * @param callback - function to process the response
    * @param resource - resource to POST to, can be a path
    * @param body - body of the request, usually as an object
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public postUIResource(resource: string, body: any): AxiosPromise {
     const url = this.uiURL + "/" + resource;
@@ -71,8 +67,7 @@ export class client {
   /**
    * Gets all distros
    *
-   * @param callback - function to process the response
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getDistros(): AxiosPromise<any> { // TODO: add type of resp
     return this.getAPIResource(apiV2Resource("distros"));
@@ -81,11 +76,10 @@ export class client {
   /**
    * Gets aggregated or detailed stats for tasks that have finished recently
    *
-   * @param callback - function to process the response
    * @param verbose - returns task details rather than aggregated stats
    * @param lookbackMins - look for tasks that ended at most this many minutes before now
    * @param status - task statuses (can be comma-separated list) to filter on
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getRecentTasks(verbose?: boolean, lookbackMins?: number, status?: string): AxiosPromise<any> { // TODO: add type of resp
     const params = {
@@ -99,10 +93,9 @@ export class client {
   /**
    * Updates header cookies when given login credentials
    *
-   * @param callback - function to process the response
    * @param username - Evergreen user's username
    * @param password - Evergreen user's password
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getToken(username?: string, password?: string): AxiosPromise<any> { // TODO: add type of resp
     const params = {
@@ -114,9 +107,8 @@ export class client {
 
   /**
    * Gets patches for a particular user
-   * @param callback - function to process the response
    * @param username - Evergreen user's username
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getPatches(username?: string, page?: number): AxiosPromise<models.Patches> {
     const resource = "json/patches/user/" + username;
@@ -128,10 +120,9 @@ export class client {
 
   /**
    * Gets logs of a particular type for a particular task/
-   * @param callback - function to process the response
    * @param taskId - identifier for the task whose logs we want
    * @param type - type of log to return
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
 
   public getLogs(taskId: string, type: string, executionNumber: number): AxiosPromise<string> {
@@ -146,7 +137,7 @@ export class client {
   /**
    * Gets build for a given build ID
    * @param id - build ID whose tasks we want
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getBuild(id: string): AxiosPromise<models.Build> {
     const resource = "builds/" + id;
@@ -156,7 +147,7 @@ export class client {
   /**
    * Gets tasks for a given build ID
    * @param buildId - build ID whose tasks we want
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getTasksForBuild(buildId: string): AxiosPromise<models.APITask[]> {
     const resource = "builds/" + buildId + "/tasks";
@@ -166,7 +157,7 @@ export class client {
   /**
    * Gets tests for a given task ID
    * @param taskId - task ID whose tests we want
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getTestsForTask(taskId: string): AxiosPromise<models.APITest[]> {
     const resource = "tasks/" + taskId + "/tests";
@@ -177,7 +168,7 @@ export class client {
    * Gets the admin settings
    *
    * @param callback - function to process the response
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getAdminConfig(): AxiosPromise<models.AdminSettings> {
     return this.getAPIResource(apiV2Resource("admin/settings"));
@@ -188,7 +179,7 @@ export class client {
    *
    * @param callback - function to process the response
    * @param settings - settings object to set in the db
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public setAdminConfig(settings: models.AdminSettings): AxiosPromise<models.AdminSettings> {
     return this.postAPIResource(apiV2Resource("admin/settings"), settings);
@@ -198,7 +189,7 @@ export class client {
    * Gets the Evergreen banner message
    *
    * @param callback - function to process the response
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public getBanner(): AxiosPromise<any> {  // TODO: add type of resp
     return this.getAPIResource(apiV2Resource("admin/banner"));
@@ -207,10 +198,9 @@ export class client {
   /**
    * Sets the Evergreen banner message
    *
-   * @param callback - function to process the response
    * @param message - text to set in the banner
    * @param theme - color theme to use
-   * @returns nothing
+   * @returns a promise for the caller to handle responses
    */
   public setBanner(message: string, theme: string): AxiosPromise<any> {  // TODO: add type of resp
     const body = {
