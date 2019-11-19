@@ -119,6 +119,19 @@ export class client {
   }
 
   /**
+   * Gets patches for a particular project
+   * @param projectName - Evergreen project name
+   * @returns a promise for the caller to handle responses
+   */
+  public getProjectPatches(projectName?: string, page?: number): AxiosPromise<models.Patches> {
+    const resource = "json/patches/project/" + projectName
+    const params = {
+      page: page,
+    };
+    return this.getUIResource(resource, params);
+  }
+
+  /**
    * Gets logs of a particular type for a particular task/
    * @param taskId - identifier for the task whose logs we want
    * @param type - type of log to return
