@@ -124,9 +124,9 @@ export class client {
    * @returns a promise for the caller to handle responses
    */
   public getProjectPatches(projectName?: string, page?: number): AxiosPromise<models.Patches> {
-    const resource = "json/patches/project/" + projectName
-    const params = {
-      page: page,
+    const resource = `json/patches/project/${projectName}`
+    const params = { 
+      page 
     };
     return this.getUIResource(resource, params);
   }
