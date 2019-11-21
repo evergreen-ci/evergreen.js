@@ -7,7 +7,12 @@ export class client {
   public apiURL: string;
   public uiURL: string;
 
-  constructor(serverURL: string, webURL: string, username?: string, key?: string) {
+  constructor(
+    serverURL: string,
+    webURL: string,
+    username?: string,
+    key?: string
+  ) {
     this.apiURL = serverURL;
     this.uiURL = webURL;
     this.username = username;
@@ -69,7 +74,8 @@ export class client {
    *
    * @returns a promise for the caller to handle responses
    */
-  public getDistros(): AxiosPromise<any> { // TODO: add type of resp
+  public getDistros(): AxiosPromise<any> {
+    // TODO: add type of resp
     return this.getAPIResource(apiV2Resource("distros"));
   }
 
@@ -81,7 +87,12 @@ export class client {
    * @param status - task statuses (can be comma-separated list) to filter on
    * @returns a promise for the caller to handle responses
    */
-  public getRecentTasks(verbose?: boolean, lookbackMins?: number, status?: string): AxiosPromise<any> { // TODO: add type of resp
+  public getRecentTasks(
+    verbose?: boolean,
+    lookbackMins?: number,
+    status?: string
+  ): AxiosPromise<any> {
+    // TODO: add type of resp
     const params = {
       verbose: verbose,
       minutes: lookbackMins,
@@ -97,7 +108,8 @@ export class client {
    * @param password - Evergreen user's password
    * @returns a promise for the caller to handle responses
    */
-  public getToken(username?: string, password?: string): AxiosPromise<any> { // TODO: add type of resp
+  public getToken(username?: string, password?: string): AxiosPromise<any> {
+    // TODO: add type of resp
     const params = {
       username: username,
       password: password,
@@ -110,10 +122,29 @@ export class client {
    * @param username - Evergreen user's username
    * @returns a promise for the caller to handle responses
    */
-  public getPatches(username?: string, page?: number): AxiosPromise<models.Patches> {
+  public getPatches(
+    username?: string,
+    page?: number
+  ): AxiosPromise<models.Patches> {
     const resource = "json/patches/user/" + username;
     const params = {
       page: page,
+    };
+    return this.getUIResource(resource, params);
+  }
+
+  /**
+   * Gets patches for a particular project
+   * @param projectName - Evergreen project name
+   * @returns a promise for the caller to handle responses
+   */
+  public getProjectPatches(
+    projectName?: string,
+    page?: number
+  ): AxiosPromise<models.Patches> {
+    const resource = `json/patches/project/${projectName}`;
+    const params = {
+      page,
     };
     return this.getUIResource(resource, params);
   }
@@ -125,12 +156,17 @@ export class client {
    * @returns a promise for the caller to handle responses
    */
 
-  public getLogs(taskId: string, type: string, executionNumber: number): AxiosPromise<string> {
+  public getLogs(
+    taskId: string,
+    type: string,
+    executionNumber: number
+  ): AxiosPromise<string> {
     const params = {
       type: type,
       text: true,
     };
-    const resource = "task_log_raw/" + taskId + "/" + executionNumber + queryString(params);
+    const resource =
+      "task_log_raw/" + taskId + "/" + executionNumber + queryString(params);
     return this.getUIResource(resource);
   }
 
@@ -181,7 +217,9 @@ export class client {
    * @param settings - settings object to set in the db
    * @returns a promise for the caller to handle responses
    */
-  public setAdminConfig(settings: models.AdminSettings): AxiosPromise<models.AdminSettings> {
+  public setAdminConfig(
+    settings: models.AdminSettings
+  ): AxiosPromise<models.AdminSettings> {
     return this.postAPIResource(apiV2Resource("admin/settings"), settings);
   }
 
@@ -191,7 +229,8 @@ export class client {
    * @param callback - function to process the response
    * @returns a promise for the caller to handle responses
    */
-  public getBanner(): AxiosPromise<any> {  // TODO: add type of resp
+  public getBanner(): AxiosPromise<any> {
+    // TODO: add type of resp
     return this.getAPIResource(apiV2Resource("admin/banner"));
   }
 
@@ -202,7 +241,8 @@ export class client {
    * @param theme - color theme to use
    * @returns a promise for the caller to handle responses
    */
-  public setBanner(message: string, theme: string): AxiosPromise<any> {  // TODO: add type of resp
+  public setBanner(message: string, theme: string): AxiosPromise<any> {
+    // TODO: add type of resp
     const body = {
       banner: message,
       theme: theme,
@@ -211,7 +251,12 @@ export class client {
   }
 
   // end routes
-  private formRequest(method: Method, url: string, requireHeaders: boolean, body?: any): AxiosRequestConfig {
+  private formRequest(
+    method: Method,
+    url: string,
+    requireHeaders: boolean,
+    body?: any
+  ): AxiosRequestConfig {
     let headers = {};
     if (requireHeaders) {
       headers = {
@@ -243,7 +288,7 @@ export function queryString(params?: object): string {
   let queryStr = "?";
   for (const key in params) {
     if (params[key] !== undefined && params[key] !== null) {
-      queryStr += (key + "=" + params[key] + "&");
+      queryStr += key + "=" + params[key] + "&";
     }
   }
 

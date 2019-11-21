@@ -29,7 +29,7 @@
     "class-transformer": "^0.2.3"
   },
   "description": "JavaScript/TypeScript library for the Evergreen REST API",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "lib/evergreen.js",
   "types": "src/evergreen.ts",
   "repository": {
@@ -44,5 +44,8 @@
   "bugs": {
     "url": "https://github.com/evergreen-ci/evergreen.js/issues"
   },
-  "homepage": "https://github.com/evergreen-ci/evergreen.js#readme"
+  "homepage": "https://github.com/evergreen-ci/evergreen.js#readme",
+  "prettier": {
+    "trailingComma": "es5"
+  }
 }
