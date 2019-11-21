@@ -96,7 +96,7 @@ export class client {
     const params = {
       verbose: verbose,
       minutes: lookbackMins,
-      status: status
+      status: status,
     };
     return this.getAPIResource(apiV2Resource("status/recent_tasks"), params);
   }
@@ -112,7 +112,7 @@ export class client {
     // TODO: add type of resp
     const params = {
       username: username,
-      password: password
+      password: password,
     };
     return this.postUIResource("login", params);
   }
@@ -128,7 +128,7 @@ export class client {
   ): AxiosPromise<models.Patches> {
     const resource = "json/patches/user/" + username;
     const params = {
-      page: page
+      page: page,
     };
     return this.getUIResource(resource, params);
   }
@@ -144,7 +144,7 @@ export class client {
   ): AxiosPromise<models.Patches> {
     const resource = `json/patches/project/${projectName}`;
     const params = {
-      page
+      page,
     };
     return this.getUIResource(resource, params);
   }
@@ -163,7 +163,7 @@ export class client {
   ): AxiosPromise<string> {
     const params = {
       type: type,
-      text: true
+      text: true,
     };
     const resource =
       "task_log_raw/" + taskId + "/" + executionNumber + queryString(params);
@@ -245,7 +245,7 @@ export class client {
     // TODO: add type of resp
     const body = {
       banner: message,
-      theme: theme
+      theme: theme,
     };
     return this.postAPIResource(apiV2Resource("admin/settings"), body);
   }
@@ -261,14 +261,14 @@ export class client {
     if (requireHeaders) {
       headers = {
         "Api-User": this.username,
-        "Api-Key": this.key
+        "Api-Key": this.key,
       };
     }
     const opts: AxiosRequestConfig = {
       headers: headers,
       url: url,
       withCredentials: true,
-      method: method
+      method: method,
     };
     if (body) {
       opts.data = body;
